@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "predict-corona-virus-on-counties"
+version = "0.1.0"
+description = ""
+authors = ["leoigornunes"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+streamlit = "^1.33.0"
+pandas = "^2.2.2"
+polars = "^0.20.21"
+folium = "^0.16.0"
+streamlit-folium = "^0.19.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
