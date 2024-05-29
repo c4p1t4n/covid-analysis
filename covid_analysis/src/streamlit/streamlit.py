@@ -40,6 +40,8 @@ def visao_drs():
         st.write(f'Dados para o DRS: {selected_ra}')
     
     # Exibir o gráfico de linha
+    st.subheader("Dataframe")
+    st.dataframe(filtered_df)
     st.subheader("Casos e obitos ao longo do tempo")
     col1, col2 = st.columns(2)
     st.line_chart(filtered_df, x="data", y=("soma_casos","soma_obitos"))
@@ -47,7 +49,6 @@ def visao_drs():
     st.subheader("novos casos e obitos ao longo do tempo")
     st.line_chart(filtered_df, x="data", y="soma_casos_novos")
     st.line_chart(filtered_df, x="data", y="soma_obitos_novos")
-    # st.dataframe(filtered_df)
     # st.write('Casos e Óbitos')
     # st.line_chart(filtered_df, x="mes", y="soma_casos")
     # st.line_chart(filtered_df, x="mes", y="soma_obitos_novos")
@@ -65,19 +66,22 @@ def tratar_visao_municipio(df):
 
 
 def mapa():
+
     st.title("Mapa de Casos Novos")
     df = pd.read_parquet('dados_municipio.parquet')
     ra_options = df['municipio'].unique().tolist()
     selected_ra = st.selectbox('Municipio', ra_options)
-    filtered_df = df[df['municipio'] == selected_ra]
     df = tratar_visao_municipio(df)
-    mapa = folium.Map(location=[filtered_df['latitude'].iloc[0], filtered_df['longitude'].iloc[0]], zoom_start=10)
-    
-# Adicionando marcadores para cada ponto no mapa
-
-    # Exibindo o mapa no Streamlit
+    filtered_df = df[df['municipio'] == selected_ra]
+    st.subheader("Dataframe")
+    st.dataframe(filtered_df)
+    st.line_chart(filtered_df, x="data", y=("soma_casos","soma_obitos"))
+    st.line_chart(filtered_df, x="data", y="soma_obitos")
+    st.subheader("novos casos e obitos ao longo do tempo")
+    st.line_chart(filtered_df, x="data", y="soma_casos_novos")
+    st.line_chart(filtered_df, x="data", y="soma_obitos_novos")
+    mapa = folium.Map(location=[filtered_df['latitude'].iloc[0], filtered_df['longitude'].iloc[0]], zoom_start=15)
     st_folium(mapa)
-    print("aqui")
 
 st.title('Painel de Analytics de Saúde')
 tab1, tab2 = st.tabs(["Visão por DRS", "Visão Por municipio"])
